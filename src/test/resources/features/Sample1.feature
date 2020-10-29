@@ -3,9 +3,9 @@ Feature: Introduction to cucumber part 1
   I want to be able to write and execute a simple scenario
 
   Scenario: Simple scenario
-    When I am on the home page
-    Then I should see home page header
-    And I should see home page description
-    And I should see menu
+    Given I am on the github home page
+    Then I should see the home page title
+    And I should see the home page description
+    And I should see sign up button
 
 
