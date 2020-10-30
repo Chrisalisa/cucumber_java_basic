@@ -161,4 +161,122 @@ public class SampleSteps {
         Alert info=driver.switchTo().alert();
         assertEquals(arg0, info.getText());
     }
+
+    @Given("^I am on the people page$")
+    public void iAmOnThePeoplePage() {
+        driver.get("https://kristinek.github.io/site/tasks/list_of_people_with_jobs");
+    }
+
+    @When("^I click: add$")
+    public void iClickAdd() {
+        driver.findElement(By.id("addPersonBtn")).click();
+    }
+
+    @And("^I enter person name: \"([^\"]*)\"$")
+    public void iEnterPersonName(String arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        driver.findElement(By.id("name")).sendKeys(arg0);
+        
+    }
+
+    @And("^I enter person job: \"([^\"]*)\"$")
+    public void iEnterPersonJob(String arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        driver.findElement(By.id("job")).sendKeys(arg0);
+
+    }
+
+    @And("^I click the add button$")
+    public void iClickTheAddButton() {
+        driver.findElement(By.id("modal_button")).click();
+    }
+
+    @Then("^I should see: \"([^\"]*)\",\"([^\"]*)\"$")
+    public void iShouldSee(String arg0, String arg1) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        WebElement Name=driver.findElement(By.cssSelector("#person3 > span:nth-child(3)"));
+        WebElement Job=driver.findElement(By.cssSelector("#person3 > span:nth-child(5)"));
+        assertEquals(arg0,Name.getText());
+        assertEquals(arg1,Job.getText());
+    }
+
+    @When("^I click: \"([^\"]*)\"$")
+    public void iClick(String arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        if(arg0.equals("add")){
+            String name="test";
+            String job="test";
+            iClickAdd();
+            iEnterPersonName(name);
+            iEnterPersonJob(job);
+            iClickTheAddButton();
+        }
+        else if(arg0.equals("delete")){
+            deleteClick();
+        }
+
+    }
+    @When("^I click: delete$")
+    public void deleteClick()throws Throwable{
+        driver.findElement(By.xpath("/html/body/div[3]/div/div/ul/div[1]/li/span[1]")).click();
+    }
+
+    @Then("^I should see: \"([^\"]*)\" people$")
+    public void iShouldSeePeople(int arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        List<WebElement> people=driver.findElements(By.cssSelector(".w3-xlarge.name"));
+        System.out.println(people.size());
+        assertTrue(people.size()==arg0);
+
+    }
+
+    @When("^I click: \"([^\"]*)\" \"([^\"]*)\" times$")
+    public void iClickTimes(String arg0, int arg1) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        for(int i=0; i<arg1; i++){
+            if(arg0.equals("add")){
+                String name="test";
+                String job="test";
+                iClickAdd();
+                iEnterPersonName(name);
+                iEnterPersonJob(job);
+                iClickTheAddButton();
+            }
+            else if(arg0.equals("delete")){
+                deleteClick();
+            }
+        }
+
+    }
+
+    @When("^I click: edit$")
+    public void iClickEdit() {
+        driver.findElement(By.xpath("/html/body/div[3]/div/div/ul/div[1]/li/span[2]/i")).click();
+    }
+
+    @And("^I clear the boxes$")
+    public void iClearTheBoxes() {
+        driver.findElement(By.id("name")).clear();
+        driver.findElement(By.id("job")).clear();
+    }
+
+    @And("^I click the edit button$")
+    public void iClickTheEditButton() {
+        driver.findElement(By.id("modal_button")).click();
+    }
+    @Then("^I should see edited: \"([^\"]*)\",\"([^\"]*)\"$")
+    public void iShouldSeeEdited(String arg0, String arg1) throws Throwable {
+        // Write code here that turns the phrase above into concrete action
+        WebElement Name=driver.findElement(By.xpath("/html/body/div[3]/div/div/ul/div[1]/li/span[3]"));
+        WebElement Job=driver.findElement(By.xpath("/html/body/div[3]/div/div/ul/div[1]/li/span[4]"));
+        assertEquals(arg0,Name.getText());
+        assertEquals(arg1,Job.getText());
+    }
+
+    @And("^I click the restore button$")
+    public void iClickTheRestoreButton() {
+        driver.findElement(By.cssSelector("button.w3-btn:nth-child(3)")).click();
+    }
+
+
 }
